@@ -1,0 +1,56 @@
+# >>> ghostdev shell tweaks >>>
+# Append this block to your ~/.bashrc for a nicer terminal experience.
+# To revert: delete this block.
+
+## --- History: large, timestamped, de-duplicated and shared across tmux panes ---
+HISTSIZE=100000
+HISTFILESIZE=200000
+HISTCONTROL=ignoreboth:erasedups
+HISTTIMEFORMAT='%F %T  '
+HISTIGNORE='ls:ll:la:l:cd:pwd:clear:exit:history:h:bg:fg:jobs'
+shopt -s histappend cmdhist
+# write each command immediately and reload others' -> live, shared history
+case "$PROMPT_COMMAND" in
+  *"history -a"*) ;;
+  *) PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND:-}" ;;
+esac
+
+## --- Comfortable shell options ---
+shopt -s checkwinsize globstar cdspell dirspell autocd checkjobs no_empty_cmd_completion 2>/dev/null
+
+## --- Colors in common tools ---
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias diff='diff --color=auto'
+alias ip='ip -color=auto'
+export LESS='-R'
+
+## --- Base aliases (only if not already defined) ---
+alias ll  >/dev/null 2>&1 || alias ll='ls -alFh --color=auto'
+alias la  >/dev/null 2>&1 || alias la='ls -A --color=auto'
+alias l   >/dev/null 2>&1 || alias l='ls -CF --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias h='history'
+alias hg='history | grep -i'
+alias path='echo -e "${PATH//:/\n}"'
+
+## --- Forward-compatible: install these tools and they light up automatically ---
+# fzf: Ctrl+R fuzzy history · Ctrl+T files · Alt+C change dir
+[ -f /usr/share/doc/fzf/examples/key-bindings.bash ] && . /usr/share/doc/fzf/examples/key-bindings.bash
+[ -f /usr/share/bash-completion/completions/fzf ] && . /usr/share/bash-completion/completions/fzf
+# zoxide: 'z <dir>' jumps to frequently-used directories
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init bash)"
+# bat / fd under their Debian names
+command -v batcat >/dev/null 2>&1 && ! command -v bat >/dev/null 2>&1 && alias bat='batcat'
+command -v fdfind >/dev/null 2>&1 && ! command -v fd  >/dev/null 2>&1 && alias fd='fdfind'
+# eza: modern ls with git + icons
+if command -v eza >/dev/null 2>&1; then
+  alias ls='eza --group-directories-first'
+  alias ll='eza -lah --group-directories-first --git'
+  alias la='eza -lAh --group-directories-first --git'
+  alias lt='eza --tree --level=2'
+fi
+# <<< ghostdev shell tweaks <<<

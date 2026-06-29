@@ -1,0 +1,18 @@
+[Unit]
+Description=ghostdev ttyd web terminal -> tmux per-tab sessions
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=${GHOSTDEV_USER}
+Group=${GHOSTDEV_USER}
+WorkingDirectory=${GHOSTDEV_HOME}
+Environment=TERM=xterm-256color
+Environment=LANG=C.UTF-8
+ExecStart=/usr/local/bin/ttyd -p 7681 -i 127.0.0.1 -b /tty -a -W ${GHOSTDEV_TTYD_CRED} -t fontSize=14 -t "fontFamily=JetBrains Mono, Hack, Menlo, monospace" -t disableLeaveAlert=true -t "theme={\"background\":\"#0F1117\",\"foreground\":\"#E6E9F0\",\"cursor\":\"#3DE3A0\",\"selectionBackground\":\"#262B38\",\"black\":\"#161922\",\"red\":\"#FF5C6C\",\"green\":\"#3DE3A0\",\"yellow\":\"#F5B544\",\"blue\":\"#5BC8FF\",\"magenta\":\"#9C8CFF\",\"cyan\":\"#7CF0C2\",\"white\":\"#C7CDDA\",\"brightBlack\":\"#3A4150\",\"brightGreen\":\"#5CEAB0\",\"brightWhite\":\"#F5F7FC\"}" tmux new -A -s
+Restart=always
+RestartSec=3
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

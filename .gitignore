@@ -1,0 +1,14 @@
+# local config (may contain auth / tokens)
+.env
+
+# editor/backup leftovers
+*.bak
+*.bak-*
+*.bak.*
+*~
+
+# node
+node_modules/
+
+# runtime data
+data/

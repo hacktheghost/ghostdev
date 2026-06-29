@@ -1,0 +1,10 @@
+.git
+.github
+assets
+docs
+install
+README.md
+LICENSE
+.env
+*.bak
+*.bak-*

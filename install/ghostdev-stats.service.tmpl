@@ -1,0 +1,23 @@
+[Unit]
+Description=ghostdev-stats — machine metrics + tmux session state for the GHOST.dev topbar
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=${GHOSTDEV_USER}
+Group=${GHOSTDEV_USER}
+Environment=GHOSTDEV_STATS_PORT=9090
+Environment=GHOSTDEV_STATS_BIND=127.0.0.1
+Environment=GHOSTDEV_NODE_LABEL=${GHOSTDEV_LABEL}
+# Optional Proxmox host stats (READ-ONLY API token). See docs/proxmox-stats.md.
+# Environment=GHOSTDEV_PROXMOX_ENABLED=true
+# Environment=GHOSTDEV_PROXMOX_HOST=
+# Environment=GHOSTDEV_PROXMOX_TOKEN_ID=
+# Environment=GHOSTDEV_PROXMOX_TOKEN_SECRET=
+ExecStart=/usr/bin/env node /opt/ghostdev-stats/server.js
+Restart=always
+RestartSec=3
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
