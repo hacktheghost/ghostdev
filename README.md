@@ -68,6 +68,10 @@ while the others keep working. ghostdev surfaces that:
 - **Claude-aware status dots** per tab + attention counter in the title. ([how it works](docs/claude-status.md))
 - **"Closed sessions" drawer** — every live session that isn't open as a tab, ready to reopen or kill.
 - **Live stats top bar** — CPU / memory / disk of the host, plus its IP. ([optional Proxmox host stats](docs/proxmox-stats.md))
+- **Built-in file manager** — a side panel to browse, upload, download (or pull straight from a URL),
+  rename, delete and edit files, confined to a configurable root. ([docs](docs/file-explorer.md))
+- **Multilingual UI** — English, Spanish, Portuguese & French, auto-detected with a switcher in the
+  top bar and easy to extend.
 - **Persistent everything** — sessions, scrollback, shell history and your Claude Code login all
   survive restarts (Docker volume / native home dir).
 - **One image, one command.** ttyd + tmux + nginx + a tiny Node backend, with Claude Code preinstalled.
@@ -110,6 +114,9 @@ All via `.env` (see [`.env.example`](.env.example)):
 | `GHOSTDEV_SHOW_PUBLIC_IP` | `true` | Show WAN IP in the top bar (calls api.ipify.org) |
 | `GHOSTDEV_BASIC_AUTH` | _(empty)_ | Optional `user:pass` HTTP basic auth on the terminal |
 | `GHOSTDEV_SHELL` | `tmux new -A -s` | Command each tab runs |
+| `GHOSTDEV_FILES_ENABLED` | `true` | Built-in file explorer ([docs](docs/file-explorer.md)) |
+| `GHOSTDEV_FILES_ROOT` | user home | Directory the file explorer is confined to |
+| `GHOSTDEV_FILES_READONLY` | `false` | `true` = browse/download only, no writes from the UI |
 | `GHOSTDEV_PROXMOX_*` | _(off)_ | Optional read-only Proxmox host stats ([docs](docs/proxmox-stats.md)) |
 
 Build without Claude Code (vanilla web terminal): `docker compose build --build-arg INSTALL_CLAUDE=false`.
@@ -137,9 +144,12 @@ security note applies.
 
 - **ttyd** serves the terminal; the URL's `?arg=<name>` becomes the tmux session name, so each tab
   maps to its own persistent session.
-- **`stats/server.js`** (Node stdlib, no deps) serves `/stats` and lists tmux sessions, annotating
-  each with its Claude state by scraping the visible pane. No secrets, no external services.
-- The dashboard (`web/index.html`) manages tabs, the closed-sessions drawer, and the live top bar.
+- **`stats/server.js`** (Node stdlib, no deps) serves `/stats`, lists tmux sessions (annotating each
+  with its Claude state by scraping the visible pane), and backs the file explorer at `/api/fs/*`
+  (list / read / upload / rename / delete / fetch-url), confined to `GHOSTDEV_FILES_ROOT`. No
+  secrets, no external services.
+- The dashboard (`web/index.html`) manages tabs, the closed-sessions drawer, the file panel, the
+  live top bar, and the EN/ES/PT/FR translations.
 
 ## Roadmap
 

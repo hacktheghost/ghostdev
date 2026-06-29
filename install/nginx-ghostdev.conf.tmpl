@@ -7,12 +7,14 @@ server {
     root /var/www/ghostdev;
     index index.html;
 
-    # stats / sessions backend
+    # stats / sessions / file-explorer backend
     location /api/ {
         proxy_pass http://127.0.0.1:9090/;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
-        proxy_read_timeout 15;
+        client_max_body_size 256m;        # file uploads
+        proxy_read_timeout 600;           # large uploads / URL downloads
+        proxy_send_timeout 600;
     }
 
     # ttyd (terminal) under base-path /tty with websocket upgrade

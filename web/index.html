@@ -30,7 +30,7 @@
     display:flex; flex-direction:column; overflow:hidden;
   }
   .ghost{filter:drop-shadow(0 0 9px var(--phantom-glow))}
-  /* ---- header: single row, no wrap ---- */
+  /* ---- header ---- */
   header.topbar{
     height:52px; flex:none; display:flex; align-items:center; justify-content:space-between; gap:16px;
     padding:0 18px; border-bottom:1px solid var(--border); background:rgba(7,8,11,0.65);
@@ -42,12 +42,20 @@
   .brand .wm b{color:var(--accent); font-weight:700}
   .brand .tag{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
     color:var(--accent); border:1px solid var(--slate-600); border-radius:6px; padding:2px 7px; margin-left:4px}
-  .topbar .right{display:flex; align-items:center; gap:14px; flex:none; font-family:var(--font-mono); font-size:12px; min-width:0}
+  .topbar .right{display:flex; align-items:center; gap:12px; flex:none; font-family:var(--font-mono); font-size:12px; min-width:0}
   .ips{display:flex; gap:12px; color:var(--slate-400); white-space:nowrap}
   .ips b{color:var(--slate-200); font-weight:500}
+  .iconbtn{flex:none; width:30px; height:30px; border-radius:8px; border:1px solid var(--border);
+    background:var(--slate-900); color:var(--slate-300); cursor:pointer; display:grid; place-items:center}
+  .iconbtn:hover{color:var(--accent); border-color:var(--accent)}
+  .iconbtn.on{color:var(--accent); border-color:var(--accent); background:var(--accent-soft)}
+  .iconbtn svg{width:15px;height:15px}
+  .langsel{appearance:none; font-family:var(--font-mono); font-size:11px; color:var(--slate-200);
+    background:var(--slate-900); border:1px solid var(--border); border-radius:8px; padding:5px 7px; cursor:pointer}
+  .langsel:hover{border-color:var(--accent)}
   .clock{color:var(--ghost-white); font-weight:600; font-size:13px; letter-spacing:.06em;
     border:1px solid var(--border); border-radius:8px; padding:4px 10px; background:var(--slate-900); flex:none}
-  /* ---- status bar: horizontal scroll, never wrap ---- */
+  /* ---- status bar ---- */
   .statusbar{
     height:34px; flex:none; display:flex; align-items:center; gap:16px;
     padding:0 18px; border-bottom:1px solid var(--border); background:var(--void);
@@ -63,7 +71,6 @@
   .statusbar .stat b.danger{color:var(--danger)}
   .statusbar .vsep{width:1px; height:15px; background:var(--slate-600); flex:none}
   @media (max-width:680px){ .ips{display:none} }
-  @keyframes pulse{0%{box-shadow:0 0 0 0 var(--phantom-glow)}70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
   /* ---- tab strip ---- */
   .tabstrip{height:42px; flex:none; display:flex; align-items:stretch; gap:4px; padding:6px 10px 0; border-bottom:1px solid var(--border); background:var(--void); overflow-x:auto}
   .tab{
@@ -74,7 +81,6 @@
   }
   .tab:hover{color:var(--slate-100); background:var(--slate-900)}
   .tab.active{background:var(--ink); color:var(--accent); border-color:var(--border); box-shadow:inset 0 2px 0 var(--accent)}
-  /* ---- per-tab Claude session state ---- */
   .tab .st{width:7px;height:7px;border-radius:50%;background:var(--slate-600);flex:none;transition:background .25s,box-shadow .25s}
   .tab.st-busy .st{background:var(--slate-300)}
   .tab.st-input .st{background:var(--accent);box-shadow:0 0 7px var(--accent)}
@@ -89,31 +95,23 @@
   .tab .close{width:16px;height:16px;border-radius:4px;display:grid;place-items:center;opacity:.55}
   .tab .close:hover{opacity:1;background:var(--slate-700);color:var(--danger)}
   .tab .close svg{width:11px;height:11px}
-  .addbtn{
-    flex:none; width:34px; height:34px; margin-left:2px; border-radius:9px; border:1px dashed var(--slate-500);
-    background:transparent; color:var(--slate-300); cursor:pointer; display:grid; place-items:center;
-  }
+  .addbtn{flex:none; width:34px; height:34px; margin-left:2px; border-radius:9px; border:1px dashed var(--slate-500);
+    background:transparent; color:var(--slate-300); cursor:pointer; display:grid; place-items:center}
   .addbtn:hover{color:var(--accent); border-color:var(--accent); background:var(--accent-soft)}
   .addbtn svg{width:15px;height:15px}
-  /* ---- "closed" button (live sessions not opened as a tab) ---- */
-  .closedbtn{
-    flex:none; height:34px; margin-left:auto; padding:0 11px; border-radius:9px;
+  .closedbtn{flex:none; height:34px; margin-left:auto; padding:0 11px; border-radius:9px;
     border:1px solid var(--slate-600); background:transparent; color:var(--slate-300);
     cursor:pointer; display:inline-flex; align-items:center; gap:7px; white-space:nowrap;
-    font-family:var(--font-mono); font-size:12px;
-  }
+    font-family:var(--font-mono); font-size:12px}
   .closedbtn:hover{color:var(--slate-100); border-color:var(--slate-500); background:var(--slate-900)}
   .closedbtn svg{width:14px;height:14px}
   .closedbtn .badge{min-width:17px; height:17px; padding:0 5px; border-radius:9px; background:var(--slate-700);
     color:var(--slate-100); font-size:10.5px; display:inline-grid; place-items:center}
   .closedbtn .badge.has{background:var(--accent-soft); color:var(--accent)}
-  /* ---- closed-sessions drawer ---- */
-  .drawer{
-    position:absolute; right:10px; top:128px; z-index:40; width:300px; max-width:calc(100vw - 20px);
+  .drawer{position:absolute; right:10px; top:128px; z-index:40; width:300px; max-width:calc(100vw - 20px);
     max-height:60vh; overflow-y:auto; -webkit-overflow-scrolling:touch;
     background:var(--slate-900); border:1px solid var(--border); border-radius:12px;
-    box-shadow:0 16px 40px rgba(0,0,0,.55); padding:8px; display:none;
-  }
+    box-shadow:0 16px 40px rgba(0,0,0,.55); padding:8px; display:none}
   .drawer.show{display:block}
   .drawer .dh{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
     color:var(--slate-500); padding:6px 8px 8px}
@@ -130,6 +128,61 @@
   .drawer .row .kill:hover{color:var(--danger); background:var(--slate-700)}
   .drawer .row button svg{width:14px; height:14px}
   .drawer .none{padding:14px 8px; text-align:center; color:var(--slate-500); font-family:var(--font-mono); font-size:11.5px}
+  /* ---- workspace: file panel + terminal stage ---- */
+  .workspace{flex:1; min-height:0; display:flex}
+  #filepanel{flex:none; width:0; overflow:hidden; border-right:1px solid var(--border); background:var(--void);
+    display:flex; flex-direction:column; transition:width .18s ease}
+  body.fp-open #filepanel{width:320px}
+  @media (max-width:560px){ body.fp-open #filepanel{width:100%} }
+  .fp-head{flex:none; display:flex; align-items:center; gap:8px; padding:9px 10px; border-bottom:1px solid var(--border)}
+  .fp-head .fp-title{font-family:var(--font-mono); font-size:12px; color:var(--accent); letter-spacing:.08em; flex:1}
+  .fp-head button{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);background:var(--slate-900);
+    color:var(--slate-300);cursor:pointer;display:grid;place-items:center}
+  .fp-head button:hover{color:var(--accent);border-color:var(--accent)}
+  .fp-head button svg{width:14px;height:14px}
+  .fp-path{flex:none; padding:7px 11px; font-family:var(--font-mono); font-size:11px; color:var(--slate-300);
+    border-bottom:1px solid var(--border); white-space:nowrap; overflow-x:auto}
+  .fp-path .seg{cursor:pointer; color:var(--slate-300)} .fp-path .seg:hover{color:var(--accent)}
+  .fp-path .sep{color:var(--slate-600); margin:0 3px}
+  .fp-ro{color:var(--warn); margin-left:6px; font-size:10px}
+  .fp-actions{flex:none; display:flex; gap:6px; padding:8px 10px; border-bottom:1px solid var(--border); flex-wrap:wrap}
+  .fp-actions button{font-family:var(--font-mono); font-size:11px; color:var(--slate-200); background:var(--slate-900);
+    border:1px solid var(--border); border-radius:7px; padding:5px 8px; cursor:pointer; display:inline-flex; align-items:center; gap:5px}
+  .fp-actions button:hover{color:var(--accent); border-color:var(--accent)}
+  .fp-actions button svg{width:12px;height:12px}
+  .fp-list{flex:1; min-height:0; overflow-y:auto; padding:6px}
+  .fp-list.drag{outline:2px dashed var(--accent); outline-offset:-6px; background:var(--accent-soft)}
+  .fp-row{display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:8px; cursor:pointer}
+  .fp-row:hover{background:var(--slate-900)}
+  .fp-row .fi{width:15px;height:15px;flex:none;color:var(--slate-400)}
+  .fp-row.dir .fi{color:var(--accent)}
+  .fp-row .fn{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+    font-family:var(--font-mono); font-size:12px; color:var(--slate-100)}
+  .fp-row .fz{font-family:var(--font-mono); font-size:10px; color:var(--slate-500); flex:none}
+  .fp-row .acts{display:none; gap:2px; flex:none}
+  .fp-row:hover .acts{display:flex}
+  .fp-row .acts button{width:24px;height:24px;border-radius:6px;border:0;background:transparent;color:var(--slate-400);cursor:pointer;display:grid;place-items:center}
+  .fp-row .acts button:hover{color:var(--accent);background:var(--slate-800)}
+  .fp-row .acts button.del:hover{color:var(--danger)}
+  .fp-row .acts button svg{width:13px;height:13px}
+  .fp-empty{padding:16px 8px; text-align:center; color:var(--slate-500); font-family:var(--font-mono); font-size:11.5px}
+  .fp-toast{flex:none; padding:6px 11px; font-family:var(--font-mono); font-size:11px; color:var(--accent); border-top:1px solid var(--border); min-height:0; display:none}
+  .fp-toast.show{display:block}
+  .fp-toast.err{color:var(--danger)}
+  /* ---- modal (text editor / image preview) ---- */
+  .modal{position:fixed; inset:0; z-index:60; background:rgba(7,8,11,.7); display:none; align-items:center; justify-content:center; padding:24px}
+  .modal.show{display:flex}
+  .modal .box{background:var(--slate-900); border:1px solid var(--border); border-radius:12px; width:min(900px,100%);
+    max-height:90vh; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  .modal .mh{display:flex; align-items:center; gap:10px; padding:10px 14px; border-bottom:1px solid var(--border)}
+  .modal .mh .mt{flex:1; font-family:var(--font-mono); font-size:12.5px; color:var(--slate-100); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .modal .mh button{font-family:var(--font-mono); font-size:12px; border-radius:7px; padding:6px 12px; cursor:pointer; border:1px solid var(--border); background:var(--slate-900); color:var(--slate-200)}
+  .modal .mh button.save{background:var(--accent); color:#07080B; border-color:var(--accent); font-weight:700}
+  .modal .mh button:hover{border-color:var(--accent)}
+  .modal textarea{flex:1; min-height:50vh; resize:none; border:0; background:var(--ink); color:var(--slate-50);
+    font-family:var(--font-mono); font-size:13px; line-height:1.5; padding:14px; outline:none}
+  .modal .imgwrap{padding:14px; overflow:auto; display:grid; place-items:center}
+  .modal .imgwrap img{max-width:100%; max-height:78vh; border-radius:8px}
   /* ---- terminal area ---- */
   .stage{flex:1; min-height:0; position:relative; background:var(--ink)}
   .pane{position:absolute; inset:0; border:0; width:100%; height:100%; display:none; background:var(--ink)}
@@ -151,6 +204,12 @@
       <span class="tag" id="node-tag">node</span>
     </div>
     <div class="right">
+      <button class="iconbtn" id="fpToggle" title="File explorer" style="display:none">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      </button>
+      <select class="langsel" id="langsel" title="Language">
+        <option value="en">EN</option><option value="es">ES</option><option value="pt">PT</option><option value="fr">FR</option>
+      </select>
       <div class="ips">
         <span>node <b id="ip-ct">–</b></span>
         <span id="ip-host-wrap" style="display:none">host <b id="ip-host">–</b></span>
@@ -177,29 +236,81 @@
   </div>
 
   <nav class="tabstrip" id="tabstrip">
-    <button class="addbtn" id="addbtn" title="New console">
+    <button class="addbtn" id="addbtn" data-i18n-title="newConsole" title="New console">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
     </button>
-    <button class="closedbtn" id="closedbtn" title="Closed sessions (still alive)">
+    <button class="closedbtn" id="closedbtn" data-i18n-title="closedTitle" title="Closed sessions (still alive)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8"/><path d="M10 12h4"/></svg>
-      <span>closed</span><span class="badge" id="closedBadge">0</span>
+      <span data-i18n="closed">closed</span><span class="badge" id="closedBadge">0</span>
     </button>
   </nav>
 
   <div class="drawer" id="drawer"></div>
 
-  <div class="stage" id="stage">
-    <div class="empty" id="empty">
-      <div>
-        <img class="ghost" src="ghost-mark.png" alt="" aria-hidden="true">
-        <div class="t">Nothing haunting this node yet.</div>
-        <div class="m">// press + to open a console</div>
+  <div class="workspace">
+    <aside id="filepanel">
+      <div class="fp-head">
+        <span class="fp-title" data-i18n="files">Files</span>
+        <button id="fpUp" data-i18n-title="up" title="Up"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+        <button id="fpRefresh" data-i18n-title="refresh" title="Refresh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3L3 8"/><path d="M3 3v5h5"/></svg></button>
+        <button id="fpClose" data-i18n-title="close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+      <div class="fp-path" id="fpPath"></div>
+      <div class="fp-actions" id="fpActions">
+        <button id="fpMkdir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M12 11v4M10 13h4"/></svg><span data-i18n="newFolder">New folder</span></button>
+        <button id="fpUpload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V8M7 12l5-5 5 5"/><path d="M5 21h14"/></svg><span data-i18n="upload">Upload</span></button>
+        <button id="fpUrl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg><span data-i18n="fromUrl">From URL</span></button>
+      </div>
+      <div class="fp-list" id="fpList"></div>
+      <div class="fp-toast" id="fpToast"></div>
+      <input type="file" id="fpFile" multiple hidden>
+    </aside>
+
+    <div class="stage" id="stage">
+      <div class="empty" id="empty">
+        <div>
+          <img class="ghost" src="ghost-mark.png" alt="" aria-hidden="true">
+          <div class="t" data-i18n="emptyTitle">Nothing haunting this node yet.</div>
+          <div class="m" data-i18n="emptyHint">// press + to open a console</div>
+        </div>
       </div>
     </div>
   </div>
 
+  <div class="modal" id="fpModal"><div class="box" id="fpModalBox"></div></div>
+
 <script>
 (function(){
+  // ===================== i18n =====================
+  var I18N={
+    en:{newConsole:"New console",closed:"closed",closedTitle:"Closed sessions (still alive)",liveNotOpen:"// live sessions, not open",noClosed:"no closed sessions",emptyTitle:"Nothing haunting this node yet.",emptyHint:"// press + to open a console",close:"Close",reopen:"Reopen",killSession:"Kill session",consoleNamePrompt:"Console name:",killConfirm:'Kill session "%s"? Everything inside it will be lost.',attachedElsewhere:"attached elsewhere",detached:"detached",files:"Files",up:"Up",refresh:"Refresh",newFolder:"New folder",upload:"Upload",fromUrl:"From URL",download:"Download",rename:"Rename",del:"Delete",edit:"Edit",emptyFolder:"empty folder",newFolderPrompt:"New folder name:",renamePrompt:"Rename to:",urlPrompt:"Download from URL:",deleteConfirm:'Delete "%s"? This cannot be undone.',save:"Save",cancel:"Cancel",saved:"saved",downloading:"downloading…",dropToUpload:"Drop files to upload",readOnly:"read-only",error:"error",openFiles:"File explorer"},
+    es:{newConsole:"Nueva consola",closed:"cerradas",closedTitle:"Sesiones cerradas (siguen vivas)",liveNotOpen:"// sesiones vivas no abiertas",noClosed:"no hay sesiones cerradas",emptyTitle:"Nada ronda este nodo todavía.",emptyHint:"// pulsa + para abrir una consola",close:"Cerrar",reopen:"Reabrir",killSession:"Matar sesión",consoleNamePrompt:"Nombre de la consola:",killConfirm:'¿Matar la sesión "%s"? Se perderá todo lo que tenga dentro.',attachedElsewhere:"abierta en otro cliente",detached:"desenganchada",files:"Archivos",up:"Subir",refresh:"Recargar",newFolder:"Nueva carpeta",upload:"Subir",fromUrl:"Desde URL",download:"Descargar",rename:"Renombrar",del:"Borrar",edit:"Editar",emptyFolder:"carpeta vacía",newFolderPrompt:"Nombre de la carpeta:",renamePrompt:"Renombrar a:",urlPrompt:"Descargar desde URL:",deleteConfirm:'¿Borrar "%s"? No se puede deshacer.',save:"Guardar",cancel:"Cancelar",saved:"guardado",downloading:"descargando…",dropToUpload:"Suelta archivos para subir",readOnly:"solo lectura",error:"error",openFiles:"Explorador de archivos"},
+    pt:{newConsole:"Novo console",closed:"fechadas",closedTitle:"Sessões fechadas (ainda vivas)",liveNotOpen:"// sessões vivas não abertas",noClosed:"nenhuma sessão fechada",emptyTitle:"Nada assombrando este nó ainda.",emptyHint:"// pressione + para abrir um console",close:"Fechar",reopen:"Reabrir",killSession:"Encerrar sessão",consoleNamePrompt:"Nome do console:",killConfirm:'Encerrar a sessão "%s"? Tudo dentro dela será perdido.',attachedElsewhere:"aberta em outro cliente",detached:"desconectada",files:"Arquivos",up:"Acima",refresh:"Atualizar",newFolder:"Nova pasta",upload:"Enviar",fromUrl:"Da URL",download:"Baixar",rename:"Renomear",del:"Excluir",edit:"Editar",emptyFolder:"pasta vazia",newFolderPrompt:"Nome da pasta:",renamePrompt:"Renomear para:",urlPrompt:"Baixar da URL:",deleteConfirm:'Excluir "%s"? Isto não pode ser desfeito.',save:"Salvar",cancel:"Cancelar",saved:"salvo",downloading:"baixando…",dropToUpload:"Solte arquivos para enviar",readOnly:"somente leitura",error:"erro",openFiles:"Explorador de arquivos"},
+    fr:{newConsole:"Nouvelle console",closed:"fermées",closedTitle:"Sessions fermées (toujours actives)",liveNotOpen:"// sessions actives non ouvertes",noClosed:"aucune session fermée",emptyTitle:"Rien ne hante ce nœud pour l'instant.",emptyHint:"// appuyez sur + pour ouvrir une console",close:"Fermer",reopen:"Rouvrir",killSession:"Tuer la session",consoleNamePrompt:"Nom de la console :",killConfirm:'Tuer la session « %s » ? Tout son contenu sera perdu.',attachedElsewhere:"ouverte ailleurs",detached:"détachée",files:"Fichiers",up:"Parent",refresh:"Actualiser",newFolder:"Nouveau dossier",upload:"Téléverser",fromUrl:"Depuis URL",download:"Télécharger",rename:"Renommer",del:"Supprimer",edit:"Éditer",emptyFolder:"dossier vide",newFolderPrompt:"Nom du dossier :",renamePrompt:"Renommer en :",urlPrompt:"Télécharger depuis l'URL :",deleteConfirm:'Supprimer « %s » ? Action irréversible.',save:"Enregistrer",cancel:"Annuler",saved:"enregistré",downloading:"téléchargement…",dropToUpload:"Déposez des fichiers à téléverser",readOnly:"lecture seule",error:"erreur",openFiles:"Explorateur de fichiers"}
+  };
+  var LANG=(function(){
+    try{var s=localStorage.getItem('ghost.dev.lang'); if(s&&I18N[s])return s;}catch(e){}
+    var n=(navigator.language||'en').slice(0,2).toLowerCase();
+    return I18N[n]?n:'en';
+  })();
+  function t(k){
+    var s=(I18N[LANG]&&I18N[LANG][k])||I18N.en[k]||k, i=1;
+    for(;i<arguments.length;i++) s=s.replace('%s',arguments[i]);
+    return s;
+  }
+  function applyI18n(){
+    document.documentElement.lang=LANG;
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n]'),function(el){ el.textContent=t(el.getAttribute('data-i18n')); });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-i18n-title]'),function(el){ el.title=t(el.getAttribute('data-i18n-title')); });
+    var ls=document.getElementById('langsel'); if(ls) ls.value=LANG;
+    document.getElementById('fpToggle').title=t('openFiles');
+  }
+  document.getElementById('langsel').addEventListener('change',function(e){
+    LANG=e.target.value; try{localStorage.setItem('ghost.dev.lang',LANG);}catch(e2){}
+    applyI18n(); render(); refreshDrawer(); if(fpOpen()) fpReload();
+  });
+
+  // ===================== terminal tabs =====================
   var stage=document.getElementById('stage');
   var strip=document.getElementById('tabstrip');
   var addbtn=document.getElementById('addbtn');
@@ -214,8 +325,6 @@
   function activeIndex(){ for(var i=0;i<tabs.length;i++) if(tabs[i].id===activeId) return i; return 0; }
   function save(){ try{ localStorage.setItem(LS, JSON.stringify({tabs:tabs.map(function(t){return {name:t.name,session:t.session};}),active:activeIndex()})); }catch(e){} }
 
-  // ---- per-session Claude state -> tab color ----
-  // busy=working · input=waiting for your message · perms=waiting for permission · ended=Claude exited
   var sstate={};
   function applyStates(){
     Array.prototype.forEach.call(strip.querySelectorAll('.tab'),function(el){
@@ -224,7 +333,7 @@
       if(st) el.classList.add('st-'+st);
     });
     var attn=0;
-    tabs.forEach(function(t){ var st=sstate[t.session]; if((st==='perms'||st==='input')&&t.id!==activeId) attn++; });
+    tabs.forEach(function(tb){ var st=sstate[tb.session]; if((st==='perms'||st==='input')&&tb.id!==activeId) attn++; });
     document.title=(attn?'('+attn+') ':'')+'GHOST.dev — terminal';
   }
   function pollStates(){
@@ -235,21 +344,19 @@
   }
   setInterval(pollStates,3500);
 
-  function closeIcon(){ return '<span class="close" title="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>'; }
-
+  function closeIcon(){ return '<span class="close" title="'+t('close')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>'; }
   function render(){
     Array.prototype.forEach.call(strip.querySelectorAll('.tab'),function(e){e.remove();});
-    tabs.forEach(function(t){
+    tabs.forEach(function(tb){
       var el=document.createElement('div');
-      el.className='tab'+(t.id===activeId?' active':'');
-      el.dataset.session=t.session;
-      el.innerHTML='<span class="st"></span><span class="nm">'+t.name.replace(/[<>&]/g,'')+'</span>'+closeIcon();
-      el.addEventListener('click',function(ev){ if(ev.target.closest('.close')){closeTab(t.id);} else {activate(t.id);} });
+      el.className='tab'+(tb.id===activeId?' active':'');
+      el.dataset.session=tb.session;
+      el.innerHTML='<span class="st"></span><span class="nm">'+tb.name.replace(/[<>&]/g,'')+'</span>'+closeIcon();
+      el.addEventListener('click',function(ev){ if(ev.target.closest('.close')){closeTab(tb.id);} else {activate(tb.id);} });
       strip.insertBefore(el, addbtn);
     });
     empty.classList.toggle('show', tabs.length===0);
-    applyStates();
-    save();
+    applyStates(); save();
   }
   function activate(id){
     activeId=id;
@@ -265,8 +372,7 @@
     f.src='tty/?arg='+encodeURIComponent(session);
     stage.appendChild(f);
     tabs.push({id:id,name:name,session:session});
-    activate(id);
-    refreshDrawer();
+    activate(id); refreshDrawer();
   }
   function closeTab(id){
     var i=tabs.findIndex(function(t){return t.id===id;});
@@ -275,96 +381,188 @@
     tabs.splice(i,1);
     if(activeId===id){ var n=tabs[Math.max(0,i-1)]; activeId=n?n.id:null; }
     if(activeId) activate(activeId); else render();
-    refreshDrawer();   // the session stays alive -> it will show up under "closed"
+    refreshDrawer();
   }
   addbtn.addEventListener('click',function(){
-    var n=prompt('Console name:', 'dev-'+(seq+1));
-    if(n===null) return;
-    n=(n||'').trim(); addTab(n||('dev-'+(seq+1)));
+    var n=prompt(t('consoleNamePrompt'), 'dev-'+(seq+1));
+    if(n===null) return; n=(n||'').trim(); addTab(n||('dev-'+(seq+1)));
   });
 
-  // ---- "closed" drawer: live tmux sessions not currently open as a tab ----
   function openSessionSet(){ var s={}; tabs.forEach(function(t){ s[t.session]=1; }); return s; }
   function dispName(sess){ return sess.replace(/^g-/,'') || sess; }
   function svgReopen(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 2.6-6.3L3 8"/><path d="M3 3v5h5"/></svg>'; }
   function svgKill(){ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/></svg>'; }
-
   function renderDrawer(list){
     var open=openSessionSet();
     var closed=(list||[]).filter(function(x){ return !open[x.name]; });
     closedBadge.textContent=closed.length;
     closedBadge.className='badge'+(closed.length?' has':'');
-    var html='<div class="dh">// live sessions, not open</div>';
-    if(!closed.length){ html+='<div class="none">no closed sessions</div>'; }
+    var html='<div class="dh">'+t('liveNotOpen')+'</div>';
+    if(!closed.length){ html+='<div class="none">'+t('noClosed')+'</div>'; }
     else closed.forEach(function(x){
       var safe=x.name.replace(/[^A-Za-z0-9_.-]/g,'');
       html+='<div class="row" data-s="'+safe+'">'
-        +'<span class="dot'+(x.attached?' on':'')+'" title="'+(x.attached?'attached elsewhere':'detached')+'"></span>'
+        +'<span class="dot'+(x.attached?' on':'')+'" title="'+(x.attached?t('attachedElsewhere'):t('detached'))+'"></span>'
         +'<span class="rn">'+dispName(x.name).replace(/[<>&]/g,'')+'</span>'
         +'<span class="w">'+(x.windows||1)+'w</span>'
-        +'<button class="reopen" title="Reopen">'+svgReopen()+'</button>'
-        +'<button class="kill" title="Kill session">'+svgKill()+'</button>'
-        +'</div>';
+        +'<button class="reopen" title="'+t('reopen')+'">'+svgReopen()+'</button>'
+        +'<button class="kill" title="'+t('killSession')+'">'+svgKill()+'</button></div>';
     });
     drawer.innerHTML=html;
     Array.prototype.forEach.call(drawer.querySelectorAll('.row'),function(row){
       var sess=row.getAttribute('data-s');
       row.querySelector('.reopen').addEventListener('click',function(){ addTab(dispName(sess), sess); drawer.classList.remove('show'); });
       row.querySelector('.kill').addEventListener('click',function(){
-        if(!confirm('Kill session "'+sess+'"? Everything inside it will be lost.')) return;
-        fetch('api/kill?s='+encodeURIComponent(sess),{cache:'no-store'})
-          .then(function(r){return r.json();})
-          .then(function(){ refreshDrawer(); })
-          .catch(function(){ refreshDrawer(); });
+        if(!confirm(t('killConfirm',sess))) return;
+        fetch('api/kill?s='+encodeURIComponent(sess),{cache:'no-store'}).then(function(r){return r.json();}).then(function(){ refreshDrawer(); }).catch(function(){ refreshDrawer(); });
       });
     });
   }
-  function refreshDrawer(){
-    fetch('api/sessions',{cache:'no-store'}).then(function(r){return r.json();})
-      .then(renderDrawer).catch(function(){ renderDrawer([]); });
-  }
-  function toggleDrawer(){
-    if(drawer.classList.contains('show')){ drawer.classList.remove('show'); return; }
-    refreshDrawer(); drawer.classList.add('show');
-  }
-  closedbtn.addEventListener('click',function(e){ e.stopPropagation(); toggleDrawer(); });
-  document.addEventListener('click',function(e){
-    if(!drawer.contains(e.target) && !closedbtn.contains(e.target)) drawer.classList.remove('show');
-  });
+  function refreshDrawer(){ fetch('api/sessions',{cache:'no-store'}).then(function(r){return r.json();}).then(renderDrawer).catch(function(){ renderDrawer([]); }); }
+  closedbtn.addEventListener('click',function(e){ e.stopPropagation(); if(drawer.classList.contains('show')){drawer.classList.remove('show');} else {refreshDrawer(); drawer.classList.add('show');} });
+  document.addEventListener('click',function(e){ if(!drawer.contains(e.target) && !closedbtn.contains(e.target)) drawer.classList.remove('show'); });
 
+  // ===================== file explorer =====================
+  var fp=document.getElementById('filepanel'), fpList=document.getElementById('fpList'),
+      fpPath=document.getElementById('fpPath'), fpToast=document.getElementById('fpToast'),
+      fpFile=document.getElementById('fpFile'), fpToggle=document.getElementById('fpToggle'),
+      modal=document.getElementById('fpModal'), modalBox=document.getElementById('fpModalBox');
+  var fpCur='', fpRW=true;
+  var TEXT_EXT=/\.(txt|md|markdown|log|js|mjs|cjs|ts|jsx|tsx|json|ya?ml|sh|bash|zsh|css|scss|html?|xml|csv|conf|cfg|ini|toml|env|py|rb|go|rs|c|h|cc|cpp|hpp|java|kt|php|sql|lua|pl|svg|gitignore|dockerfile|makefile|tmpl|service|nginx)$/i;
+  var IMG_EXT=/\.(png|jpe?g|gif|webp|svg|bmp|ico|avif)$/i;
+  function fpOpen(){ return document.body.classList.contains('fp-open'); }
+  function toast(msg,err){ fpToast.textContent=msg; fpToast.className='fp-toast show'+(err?' err':''); if(!err) setTimeout(function(){fpToast.classList.remove('show');},2500); }
+  function join(a,b){ return a? a+'/'+b : b; }
+  function parentOf(p){ var i=p.lastIndexOf('/'); return i<0?'':p.slice(0,i); }
+  function sz(b){ if(b<1024)return b+'B'; if(b<1048576)return (b/1024).toFixed(0)+'K'; if(b<1073741824)return (b/1048576).toFixed(1)+'M'; return (b/1073741824).toFixed(1)+'G'; }
+  function esc(s){ return String(s).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
+
+  function fpReload(){ fpLoad(fpCur); }
+  function fpLoad(path){
+    fetch('api/fs/list?path='+encodeURIComponent(path),{cache:'no-store'}).then(function(r){return r.json();}).then(function(d){
+      if(d.error){ toast(d.error,true); return; }
+      fpCur=d.path||''; fpRW=d.rw!==false; renderPath(); renderList(d.entries||[]);
+    }).catch(function(e){ toast(t('error'),true); });
+  }
+  function renderPath(){
+    var parts=fpCur?fpCur.split('/'):[];
+    var html='<span class="seg" data-p="">~</span>', acc='';
+    parts.forEach(function(seg){ acc=join(acc,seg); html+='<span class="sep">/</span><span class="seg" data-p="'+esc(acc)+'">'+esc(seg)+'</span>'; });
+    if(!fpRW) html+='<span class="fp-ro">'+t('readOnly')+'</span>';
+    fpPath.innerHTML=html;
+    Array.prototype.forEach.call(fpPath.querySelectorAll('.seg'),function(s){ s.addEventListener('click',function(){ fpLoad(s.getAttribute('data-p')); }); });
+  }
+  function fiDir(){ return '<svg class="fi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>'; }
+  function fiFile(){ return '<svg class="fi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>'; }
+  function ic(name,svg){ return '<button class="'+name+'" title="'+t(name==='del'?'del':name)+'">'+svg+'</button>'; }
+  function renderList(entries){
+    if(!entries.length){ fpList.innerHTML='<div class="fp-empty">'+t('emptyFolder')+'</div>'; return; }
+    var html='';
+    entries.forEach(function(e){
+      var rel=join(fpCur,e.name), isDir=e.type==='dir';
+      var acts='';
+      if(!isDir) acts+=ic('download','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v11M7 12l5 5 5-5"/><path d="M5 21h14"/></svg>');
+      if(fpRW && !isDir) acts+=ic('edit','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>');
+      if(fpRW) acts+=ic('rename','<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5h16v2"/><path d="M9 20h6M12 5v15"/></svg>');
+      if(fpRW) acts+='<button class="del" title="'+t('del')+'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M9 7V4h6v3M7 7l1 13h8l1-13"/></svg></button>';
+      html+='<div class="fp-row'+(isDir?' dir':'')+'" data-rel="'+esc(rel)+'" data-dir="'+(isDir?1:0)+'" data-name="'+esc(e.name)+'">'
+        +(isDir?fiDir():fiFile())+'<span class="fn">'+esc(e.name)+'</span>'
+        +'<span class="fz">'+(isDir?'':sz(e.size))+'</span><span class="acts">'+acts+'</span></div>';
+    });
+    fpList.innerHTML=html;
+    Array.prototype.forEach.call(fpList.querySelectorAll('.fp-row'),function(row){
+      var rel=row.getAttribute('data-rel'), isDir=row.getAttribute('data-dir')==='1', name=row.getAttribute('data-name');
+      row.addEventListener('click',function(ev){
+        if(ev.target.closest('.acts')) return;
+        if(isDir) fpLoad(rel); else openFile(rel,name);
+      });
+      var dl=row.querySelector('.download'); if(dl) dl.addEventListener('click',function(ev){ev.stopPropagation(); downloadFile(rel);});
+      var ed=row.querySelector('.edit'); if(ed) ed.addEventListener('click',function(ev){ev.stopPropagation(); editFile(rel,name);});
+      var rn=row.querySelector('.rename'); if(rn) rn.addEventListener('click',function(ev){ev.stopPropagation();
+        var to=prompt(t('renamePrompt'),name); if(!to||to===name) return;
+        post('api/fs/rename',{path:rel,to:to}).then(function(r){ r.error?toast(r.error,true):fpReload(); });
+      });
+      var dl2=row.querySelector('.del'); if(dl2) dl2.addEventListener('click',function(ev){ev.stopPropagation();
+        if(!confirm(t('deleteConfirm',name))) return;
+        post('api/fs/delete',{path:rel}).then(function(r){ r.error?toast(r.error,true):fpReload(); });
+      });
+    });
+  }
+  function post(url,body){ return fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)}).then(function(r){return r.json();}); }
+  function downloadFile(rel){ var a=document.createElement('a'); a.href='api/fs/read?path='+encodeURIComponent(rel)+'&dl=1'; a.download=''; document.body.appendChild(a); a.click(); a.remove(); }
+  function openFile(rel,name){
+    if(IMG_EXT.test(name)) return showImage(rel,name);
+    if(TEXT_EXT.test(name) || name.indexOf('.')<0) return editFile(rel,name);
+    downloadFile(rel);
+  }
+  function closeModal(){ modal.classList.remove('show'); modalBox.innerHTML=''; }
+  modal.addEventListener('click',function(e){ if(e.target===modal) closeModal(); });
+  function showImage(rel,name){
+    modalBox.innerHTML='<div class="mh"><span class="mt">'+esc(name)+'</span><button id="mDl">'+t('download')+'</button><button id="mX">'+t('close')+'</button></div><div class="imgwrap"><img src="api/fs/read?path='+encodeURIComponent(rel)+'"></div>';
+    modalBox.querySelector('#mX').onclick=closeModal; modalBox.querySelector('#mDl').onclick=function(){downloadFile(rel);};
+    modal.classList.add('show');
+  }
+  function editFile(rel,name){
+    fetch('api/fs/read?path='+encodeURIComponent(rel),{cache:'no-store'}).then(function(r){return r.text();}).then(function(txt){
+      modalBox.innerHTML='<div class="mh"><span class="mt">'+esc(name)+'</span>'+(fpRW?'<button class="save" id="mSave">'+t('save')+'</button>':'')+'<button id="mX">'+t('cancel')+'</button></div><textarea id="mTa" spellcheck="false"></textarea>';
+      modalBox.querySelector('#mTa').value=txt;
+      modalBox.querySelector('#mX').onclick=closeModal;
+      var sv=modalBox.querySelector('#mSave'); if(sv) sv.onclick=function(){
+        post('api/fs/save',{path:rel,content:modalBox.querySelector('#mTa').value}).then(function(r){ if(r.error){toast(r.error,true);} else {toast(name+' '+t('saved')); closeModal(); fpReload();} });
+      };
+      modal.classList.add('show');
+    }).catch(function(){ toast(t('error'),true); });
+  }
+  function uploadFiles(files){
+    if(!fpRW){ toast(t('readOnly'),true); return; }
+    Array.prototype.forEach.call(files,function(file){
+      var r=new FileReader();
+      r.onload=function(){ post('api/fs/upload',{path:fpCur,name:file.name,b64:r.result.split(',')[1]||''}).then(function(res){ res.error?toast(res.error,true):fpReload(); }); };
+      r.readAsDataURL(file);
+    });
+  }
+  fpFile.addEventListener('change',function(){ uploadFiles(fpFile.files); fpFile.value=''; });
+  document.getElementById('fpUpload').addEventListener('click',function(){ fpFile.click(); });
+  document.getElementById('fpMkdir').addEventListener('click',function(){ var n=prompt(t('newFolderPrompt')); if(!n) return; post('api/fs/mkdir',{path:fpCur,name:n}).then(function(r){ r.error?toast(r.error,true):fpReload(); }); });
+  document.getElementById('fpUrl').addEventListener('click',function(){ var url=prompt(t('urlPrompt')); if(!url) return; toast(t('downloading')); post('api/fs/fetch-url',{path:fpCur,url:url}).then(function(r){ if(r.error){toast(r.error,true);} else {toast(r.name); fpReload();} }); });
+  document.getElementById('fpUp').addEventListener('click',function(){ if(fpCur) fpLoad(parentOf(fpCur)); });
+  document.getElementById('fpRefresh').addEventListener('click',fpReload);
+  document.getElementById('fpClose').addEventListener('click',function(){ document.body.classList.remove('fp-open'); fpToggle.classList.remove('on'); });
+  fpToggle.addEventListener('click',function(){
+    var open=!fpOpen(); document.body.classList.toggle('fp-open',open); fpToggle.classList.toggle('on',open);
+    if(open) fpReload();
+  });
+  // drag & drop upload
+  ['dragover','dragenter'].forEach(function(ev){ fpList.addEventListener(ev,function(e){ e.preventDefault(); fpList.classList.add('drag'); }); });
+  ['dragleave','drop'].forEach(function(ev){ fpList.addEventListener(ev,function(e){ e.preventDefault(); fpList.classList.remove('drag'); }); });
+  fpList.addEventListener('drop',function(e){ if(e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files.length) uploadFiles(e.dataTransfer.files); });
+
+  // ===================== boot =====================
+  applyI18n();
   var restored=false;
   try{
     var st=JSON.parse(localStorage.getItem(LS)||'null');
-    if(st&&st.tabs&&st.tabs.length){
-      st.tabs.forEach(function(t){ addTab(t.name,t.session); });
-      var idx=st.active||0; if(tabs[idx]) activate(tabs[idx].id);
-      restored=true;
-    }
+    if(st&&st.tabs&&st.tabs.length){ st.tabs.forEach(function(tb){ addTab(tb.name,tb.session); }); var idx=st.active||0; if(tabs[idx]) activate(tabs[idx].id); restored=true; }
   }catch(e){}
   if(!restored) addTab('main','g-main');
-  refreshDrawer();
-  pollStates();
-})();
+  refreshDrawer(); pollStates();
 
-// ---- live stats + clock ----
-(function(){
+  // ===================== live stats + clock =====================
   function $(id){return document.getElementById(id);}
   function tone(el,pct){ el.classList.remove('warn','danger'); if(pct>=85)el.classList.add('danger'); else if(pct>=65)el.classList.add('warn'); }
   function g(b){ return (b/1073741824).toFixed(b<10*1073741824?1:0)+'G'; }
   function setPair(id,o){ var el=$(id); if(!o){el.textContent='–';return;} var pct=o.total?Math.round(o.used/o.total*100):0; el.textContent=g(o.used)+'/'+g(o.total); tone(el,pct); }
   function setCpu(id,pct){ var el=$(id); el.textContent=(pct==null?'–':pct+'%'); tone(el,pct||0); }
   function show(id,on){ var el=$(id); if(el) el.style.display=on?'':'none'; }
-
   function clock(){ var d=new Date(); var p=function(n){return (n<10?'0':'')+n;}; $('clock').textContent=p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds()); }
   setInterval(clock,1000); clock();
-
-  var labelSet=false;
+  var labelSet=false, filesShown=false;
   function poll(){
     fetch('api/stats',{cache:'no-store'}).then(function(r){return r.json();}).then(function(s){
       if(!labelSet && s.label){ $('node-tag').textContent=s.label; labelSet=true; }
+      if(!filesShown && s.files){ fpToggle.style.display=''; filesShown=true; }
       setCpu('ct-cpu',s.ct.cpu); setPair('ct-mem',s.ct.mem); setPair('ct-disk',s.ct.disk);
-      var hasHost=s.host && !s.host.error;
-      show('host-grp',hasHost); show('host-sep',hasHost);
+      var hasHost=s.host && !s.host.error; show('host-grp',hasHost); show('host-sep',hasHost);
       if(hasHost){ setCpu('h-cpu',s.host.cpu); setPair('h-mem',s.host.mem); setPair('h-disk',s.host.disk); }
       if(s.ips){
         if(s.ips.ct) $('ip-ct').textContent=s.ips.ct;
