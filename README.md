@@ -28,7 +28,7 @@ That last part is the point. Plain web terminals (ttyd, wetty, gotty) give you a
 ghostdev gives you a **dashboard for parallel Claude Code sessions**.
 
 <p align="center">
-  <img src="assets/terminal.png" alt="A Claude Code session running inside a GHOST.dev browser tab" width="100%">
+  <img src="assets/hero.gif" alt="GHOST.dev: tab status dots change live as each Claude session works, waits for input, or needs permission" width="100%">
 </p>
 
 <div align="center">
