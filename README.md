@@ -6,8 +6,13 @@
 
 ### Run Claude Code in your browser — a self-hosted, multi-session web terminal that shows you which agent needs you.
 
+[![Stars](https://img.shields.io/github/stars/hacktheghost/ghostdev?style=flat&color=3DE3A0&logo=github)](https://github.com/hacktheghost/ghostdev/stargazers)
+[![Issues](https://img.shields.io/github/issues/hacktheghost/ghostdev?color=5BC8FF)](https://github.com/hacktheghost/ghostdev/issues)
+[![Last commit](https://img.shields.io/github/last-commit/hacktheghost/ghostdev?color=9C8CFF)](https://github.com/hacktheghost/ghostdev/commits/main)
 [![License: MIT](https://img.shields.io/badge/License-MIT-3DE3A0.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/run-docker%20compose-5BC8FF.svg)](#quickstart)
+[![PRs welcome](https://img.shields.io/badge/PRs-welcome-3DE3A0.svg)](#contributing)
+[![Built with Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-9C8CFF.svg)](https://claude.com/claude-code)
 
 </div>
 
@@ -26,6 +31,12 @@ ghostdev gives you a **dashboard for parallel Claude Code sessions**.
   <img src="assets/terminal.png" alt="A Claude Code session running inside a GHOST.dev browser tab" width="100%">
 </p>
 
+<div align="center">
+
+[Why](#why) · [How it compares](#how-it-compares) · [Features](#features) · [Quickstart](#quickstart) · [Configuration](#configuration) · [Native install](#native-install-no-docker) · [How it works](#how-it-works) · [Contributing](#contributing)
+
+</div>
+
 ## Why
 
 Running several Claude Code sessions in parallel is now normal — one per repo, per feature, per
@@ -36,6 +47,19 @@ while the others keep working. ghostdev surfaces that:
 - ⚪ **grey dot** — Claude is working (thinking / generating / running tools)
 - 🟠 **amber dot (pulsing)** — Claude is blocked on a permission prompt → go approve it
 - and the browser tab title shows an attention counter like `(2) GHOST.dev`
+
+## How it compares
+
+|  | **ghostdev** | ttyd / wetty / gotty | code-server |
+|---|:---:|:---:|:---:|
+| Web terminal | ✅ | ✅ | ⚠️ full IDE |
+| Multiple sessions as tabs | ✅ | ❌ one shell | ➖ |
+| Persistent tmux per tab | ✅ | ❌ | ❌ |
+| **Per-tab Claude status** (working / waiting / needs permission) | ✅ | ❌ | ❌ |
+| Reopen / kill detached sessions | ✅ | ❌ | ➖ |
+| Live system stats top bar | ✅ | ❌ | ❌ |
+| Claude Code preinstalled | ✅ | ❌ | ❌ |
+| Footprint | tiny (ttyd + nginx + Node) | tiny | heavy |
 
 ## Features
 
@@ -124,6 +148,30 @@ security note applies.
 - [ ] Theme switcher
 - [ ] Pluggable status detectors for other CLI agents
 
+## Contributing
+
+Issues and PRs are welcome — bug reports, new status detectors for other CLI agents, themes, or
+packaging for more distros. Filing a status-detection bug? Paste a `tmux capture-pane -p` of the
+screen that was misread (see [docs/claude-status.md](docs/claude-status.md)) so it's easy to fix.
+
+If ghostdev is useful to you, **a ⭐ helps other people find it.**
+
+## Acknowledgements
+
+Standing on the shoulders of [ttyd](https://github.com/tsl0922/ttyd),
+[tmux](https://github.com/tmux/tmux), [nginx](https://nginx.org), and
+[Claude Code](https://claude.com/claude-code).
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Star History
+
+<a href="https://star-history.com/#hacktheghost/ghostdev&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=hacktheghost/ghostdev&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=hacktheghost/ghostdev&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=hacktheghost/ghostdev&type=Date" width="600" />
+  </picture>
+</a>
