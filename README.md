@@ -78,8 +78,8 @@ while the others keep working. ghostdev surfaces that:
 - **Polished dark theme**, tuned `tmux` and `bash`, JetBrains Mono, mobile-friendly layout.
 
 <p align="center">
-  <img src="assets/sessions.png" alt="The closed-sessions drawer: live tmux sessions not currently open as a tab" width="49%">
-  <img src="assets/dashboard.png" alt="Live stats top bar with the empty state" width="49%">
+  <img src="assets/file-explorer.png" alt="The built-in file explorer side panel open next to a terminal" width="49%">
+  <img src="assets/sessions.png" alt="The closed-sessions drawer: live tmux sessions not open as a tab" width="49%">
 </p>
 
 ## Quickstart
